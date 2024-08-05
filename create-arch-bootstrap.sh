@@ -6,8 +6,7 @@
 ########################################################################
 
 # Package groups
-audio_pkgs="alsa-lib lib32-alsa-lib libpulse \
-	lib32-libpulse jack2 lib32-jack2 pipewire lib32-pipewire"
+audio_pkgs="alsa-lib lib32-alsa-lib libpulse lib32-libpulse pipewire lib32-pipewire"
 
 video_pkgs="mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-intel \
 	lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader vulkan-mesa-layers \
@@ -21,9 +20,7 @@ wine_pkgs="giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap \
 	lib32-libjpeg-turbo libxcomposite lib32-libxcomposite libxinerama \
 	libxslt lib32-libxslt libva lib32-libva \
 	vulkan-icd-loader lib32-vulkan-icd-loader \
-	vkd3d lib32-vkd3d libgphoto2 ffmpeg gst-plugins-good \
-	gst-plugins-ugly gst-plugins-base lib32-gst-plugins-good \
-	lib32-gst-plugins-base gst-libav wget gst-plugin-pipewire"
+	vkd3d lib32-vkd3d libgphoto2 ffmpeg gst-plugins-good wget"
 
 devel_pkgs="base-devel"
 
@@ -379,7 +376,7 @@ run_in_chroot rm -f "${bootstrap}"/etc/locale.conf
 run_in_chroot sed -i 's/LANG=${LANG:-C}/LANG=$LANG/g' /etc/profile.d/locale.sh
 
 # Remove bloatwares
-run_in_chroot pacman --noconfirm -Rsndd gcc
+run_in_chroot pacman --noconfirm -Rsndd gcc systemd yay
 run_in_chroot rm -Rf /usr/include /usr/share/man /usr/share/gtk-doc /usr/lib/gcc /usr/bin/gcc*
 run_in_chroot bash -c 'find "${bootstrap}"/usr/share/doc/* -not -iname "*steam*" -a -not -name "." -delete'
 run_in_chroot bash -c 'find "${bootstrap}"/usr/share/locale/*/*/* -not -iname "*steam*" -a -not -name "." -delete'
