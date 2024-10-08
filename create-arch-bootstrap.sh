@@ -401,7 +401,7 @@ rm -rf "${bootstrap}"/usr/share/git*
 rm -rf "${bootstrap}"/usr/share/pacman
 rm -rf "${bootstrap}"/usr/share/help/*
 rm -rf "${bootstrap}"/usr/share/gir-1.0
-rm -rf "${bootstrap}"/usr/share/fonts
+rm -rf "${bootstrap}"/usr/share/fonts/*
 rm -rf "${bootstrap}"/var/lib/pacman/*
 rm -f "${bootstrap}"/usr/bin/yay
 rm -f "${bootstrap}"/usr/bin/git*
