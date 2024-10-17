@@ -165,36 +165,6 @@ install_aur_packages () {
 	done
 }
 
-generate_localegen () {
-	cat <<EOF > locale.gen
-ar_EG.UTF-8 UTF-8
-en_US.UTF-8 UTF-8
-en_GB.UTF-8 UTF-8
-en_CA.UTF-8 UTF-8
-en_SG.UTF-8 UTF-8
-es_MX.UTF-8 UTF-8
-zh_CN.UTF-8 UTF-8
-fr_FR.UTF-8 UTF-8
-ru_RU.UTF-8 UTF-8
-ru_UA.UTF-8 UTF-8
-es_ES.UTF-8 UTF-8
-de_DE.UTF-8 UTF-8
-pt_BR.UTF-8 UTF-8
-it_IT.UTF-8 UTF-8
-id_ID.UTF-8 UTF-8
-ja_JP.UTF-8 UTF-8
-bg_BG.UTF-8 UTF-8
-pl_PL.UTF-8 UTF-8
-da_DK.UTF-8 UTF-8
-ko_KR.UTF-8 UTF-8
-tr_TR.UTF-8 UTF-8
-hu_HU.UTF-8 UTF-8
-cs_CZ.UTF-8 UTF-8
-bn_IN UTF-8
-hi_IN UTF-8
-EOF
-}
-
 generate_mirrorlist () {
 	cat <<EOF > mirrorlist
 Server = https://mirror1.sl-chat.ru/archlinux/\$repo/os/\$arch
@@ -213,15 +183,6 @@ EOF
 cd "${script_dir}" || exit 1
 
 bootstrap="${script_dir}"/root.x86_64
-
-curl -#LO 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-curl -#LO 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-
-if [ ! -s chaotic-keyring.pkg.tar.zst ] || [ ! -s chaotic-mirrorlist.pkg.tar.zst ]; then
-	echo "Seems like Chaotic-AUR keyring or mirrorlist is currently unavailable"
-	echo "Please try again later"
-	exit 1
-fi
 
 bootstrap_urls=("arch.hu.fo" \
 		"mirror.cyberbits.eu" \
@@ -260,8 +221,6 @@ rm archlinux-bootstrap-x86_64.tar.zst sha256sums.txt sha256.txt
 
 mount_chroot
 
-#generate_localegen
-
 if command -v reflector 1>/dev/null; then
 	echo "Generating mirrorlist..."
 	reflector --connection-timeout 10 --download-timeout 10 --protocol https --score 10 --sort rate --save mirrorlist
@@ -270,17 +229,12 @@ else
 	generate_mirrorlist
 fi
 
-#rm "${bootstrap}"/etc/locale.gen
-#mv locale.gen "${bootstrap}"/etc/locale.gen
-
 rm "${bootstrap}"/etc/pacman.d/mirrorlist
 mv mirrorlist "${bootstrap}"/etc/pacman.d/mirrorlist
 
-{
-	echo
-	echo "[multilib]"
-	echo "Include = /etc/pacman.d/mirrorlist"
-} >> "${bootstrap}"/etc/pacman.conf
+echo '
+"[multilib]"
+"Include = /etc/pacman.d/mirrorlist"' >> "${bootstrap}"/etc/pacman.conf
 
 run_in_chroot pacman-key --init
 echo "keyserver hkps://keyserver.ubuntu.com" >> "${bootstrap}"/etc/pacman.d/gnupg/gpg.conf
@@ -290,19 +244,9 @@ run_in_chroot pacman-key --populate archlinux
 run_in_chroot pacman-key --recv-key 3056513887B78AEB
 run_in_chroot pacman-key --lsign-key 3056513887B78AEB
 
-mv chaotic-keyring.pkg.tar.zst chaotic-mirrorlist.pkg.tar.zst "${bootstrap}"/opt
-run_in_chroot pacman --noconfirm -U /opt/chaotic-keyring.pkg.tar.zst /opt/chaotic-mirrorlist.pkg.tar.zst
-rm "${bootstrap}"/opt/chaotic-keyring.pkg.tar.zst "${bootstrap}"/opt/chaotic-mirrorlist.pkg.tar.zst
-
-{
-	echo
-	echo "[chaotic-aur]"
-	echo "Include = /etc/pacman.d/chaotic-mirrorlist"
-} >> "${bootstrap}"/etc/pacman.conf
-
 # The ParallelDownloads feature of pacman
 # Speeds up packages installation, especially when there are many small packages to install
-sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 3/g' "${bootstrap}"/etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' "${bootstrap}"/etc/pacman.conf
 
 # Do not install unneeded files (man pages and Nvidia firmwares)
 sed -i 's/#NoExtract   =/NoExtract   = usr\/lib\/firmware\/nvidia\/\* usr\/share\/man\/\*/' "${bootstrap}"/etc/pacman.conf
@@ -364,7 +308,9 @@ fi
 #run_in_chroot locale-gen
 
 # Remove unneeded packages
-run_in_chroot pacman --noconfirm -Rsu base-devel meson mingw-w64-gcc cmake gcc gtk4 git guile
+run_in_chroot pacman --noconfirm -Rsu base-devel meson mingw-w64-gcc cmake gcc \
+  gtk4 git guile base reflector squashfs-tools fakeroot
+
 run_in_chroot pacman --noconfirm -Rdd wine-staging
 run_in_chroot pacman --noconfirm -Scc
 
