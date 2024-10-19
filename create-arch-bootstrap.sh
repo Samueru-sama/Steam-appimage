@@ -420,7 +420,8 @@ rm -f "${bootstrap}"/var/cache/pacman/pkg/*
 
 # Use the patched bwrap to allow launching AppImages from conty
 echo "Using patched bubblewrap..."
-cp ./utils/bwrap "${bootstrap}"/usr/bin || exit 1
+rm -f "${bootstrap}"/usr/bin/bwrap
+wget "https://bin.ajam.dev/x86_64_Linux/bwrap-patched" -O "${bootstrap}"/usr/bin/bwrap || exit 1
 chmod +x "${bootstrap}"/usr/bin/bwrap || exit 1
 
 # Create some empty files and directories
