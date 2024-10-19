@@ -14,15 +14,11 @@ video_pkgs="mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-intel \
 	libva-intel-driver lib32-libva-intel-driver intel-media-driver"
 
 wine_pkgs="giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap \
-	gnutls lib32-gnutls mpg123 lib32-mpg123 \
-	v4l-utils lib32-v4l-utils libpulse lib32-libpulse \
-	alsa-lib lib32-alsa-lib libjpeg-turbo \
+	gnutls lib32-gnutls mpg123 lib32-mpg123 v4l-utils lib32-v4l-utils \
+	libpulse lib32-libpulse alsa-lib lib32-alsa-lib libjpeg-turbo \
 	lib32-libjpeg-turbo libxcomposite lib32-libxcomposite libxinerama \
-	libxslt lib32-libxslt libva lib32-libva \
-	vulkan-icd-loader lib32-vulkan-icd-loader \
-	vkd3d lib32-vkd3d libgphoto2 ffmpeg gst-plugins-good \
-	gst-plugins-ugly gst-plugins-base lib32-gst-plugins-good \
-	lib32-gst-plugins-base gst-libav wget gst-plugin-pipewire"
+	libxslt lib32-libxslt libva lib32-libva vkd3d lib32-vkd3d \
+	ffmpeg wget"
 
 devel_pkgs="base-devel"
 
