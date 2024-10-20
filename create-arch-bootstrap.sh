@@ -427,7 +427,7 @@ chmod +x "${bootstrap}"/usr/bin/bwrap || exit 1
 
 # Use zenity-gtk3 appimage since the aur package broke
 ZENITY=$(curl -Ls https://api.github.com/repos/Samueru-sama/Zenity-GTK3-AppImage/releases \
-	| sed 's/[()",{} ]/\n/g' | grep -oi "https.*$APP.*x86_64.*mage$" | head -1)
+	| sed 's/[()",{} ]/\n/g' | grep -oi "https.*x86_64.*mage$" | head -1)
 wget "$ZENITY" -O "${bootstrap}"/usr/bin/zenity
 chmod +x "${bootstrap}"/usr/bin/zenity
 
