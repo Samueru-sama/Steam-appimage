@@ -31,7 +31,7 @@ export packagelist="${audio_pkgs} ${video_pkgs} ${wine_pkgs} ${devel_pkgs} \
 	gamescope gamemode lib32-gamemode mangohud lib32-mangohud xorg-xwininfo"
 
 # If you want to install AUR packages, specify them in this variable
-export aur_packagelist="glibc-eac-bin lib32-glibc-eac-bin zenity-gtk3 steam-screensaver-fix"
+export aur_packagelist="glibc-eac-bin lib32-glibc-eac-bin steam-screensaver-fix"
 
 # ALHP is a repository containing packages from the official Arch Linux
 # repos recompiled with -O3, LTO and optimizations for modern CPUs for
@@ -369,7 +369,7 @@ run_in_chroot rm -f "${bootstrap}"/etc/locale.conf
 run_in_chroot sed -i 's/LANG=${LANG:-C}/LANG=$LANG/g' /etc/profile.d/locale.sh
 
 # Remove bloatwares
-run_in_chroot pacman --noconfirm -Rsndd gcc yay systemd git autoconf automake python-matplotlib python-numpy python-contourpy
+run_in_chroot pacman --noconfirm -Rsndd gcc yay systemd git autoconf automake python-matplotlib python-numpy python-contourpy zenity gtk4
 run_in_chroot pacman -Qdtq | run_in_chroot pacman --noconfirm -Rsn -
 
 # Generate a list of installed packages
@@ -424,6 +424,12 @@ echo "Using patched bubblewrap..."
 rm -f "${bootstrap}"/usr/bin/bwrap
 wget "https://bin.ajam.dev/x86_64_Linux/bwrap-patched" -O "${bootstrap}"/usr/bin/bwrap || exit 1
 chmod +x "${bootstrap}"/usr/bin/bwrap || exit 1
+
+# Use zenity-gtk3 appimage since the aur package broke
+ZENITY=$(curl -Ls https://api.github.com/repos/Samueru-sama/Zenity-GTK3-AppImage/releases \
+	| sed 's/[()",{} ]/\n/g' | grep -oi "https.*$APP.*x86_64.*mage$" | head -1)
+wget "$ZENITY" -O "${bootstrap}"/usr/bin/zenity
+chmod +x "${bootstrap}"/usr/bin/zenity
 
 # Create some empty files and directories
 # This is needed for bubblewrap to be able to bind real files/dirs to them
