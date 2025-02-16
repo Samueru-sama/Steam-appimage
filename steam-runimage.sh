@@ -37,10 +37,14 @@ run_install() {
 	wget --retry-connrefused --tries=30 "$LIBXML" -O ./libxml2-iculess.pkg.tar.zst
 	pac -U --noconfirm ./llvm-libs.pkg.tar.zst ./libxml2-iculess.pkg.tar.zst
 	rm -f ./llvm-libs.pkg.tar.zst ./libxml2-iculess.pkg.tar.zst
-
+	
+	echo "SIZE OF LLVM.SO"
+	du -h /usr/lib/libLLVM.so.19.1
 	echo '== shrink (optionally)'
 	pac -Rsndd --noconfirm wget gocryptfs adobe-source-code-pro-fonts jq \
 		gnupg webkit2gtk-4.1 perl vulkan-tools icu
+	echo "SIZE OF LLVM.SO"
+	du -h /usr/lib/libLLVM.so.19.1
 	rim-shrink --all
 	pac -Rsndd --noconfirm binutils
 
@@ -69,6 +73,8 @@ run_install() {
 	EOF
 
 	echo '== Build new DwarFS runimage with zstd 22 lvl and 24 block size'
+	echo "SIZE OF LLVM.SO"
+	du -h /usr/lib/libLLVM.so.19.1
 	rim-build -s steam.RunImage
 }
 export -f run_install
@@ -87,6 +93,8 @@ mv ~/steam.desktop ./AppDir
 mv ~/steam.png     ./AppDir
 sed -i '30i\StartupWMClass=steam' ./AppDir/steam.desktop
 
+echo "SIZE OF LLVM.SO AFTER EXTRACT"
+du -h ./AppDir/rootfs/usr/lib/libLLVM.so.19.1
 # debloat
 rm -rfv ./AppDir/sharun/bin/chisel \
 	./AppDir/rootfs/usr/lib*/libgo.so* \
