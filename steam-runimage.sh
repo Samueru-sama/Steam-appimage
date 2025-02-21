@@ -31,10 +31,14 @@ run_install() {
 	yes|pac -S glibc-eac lib32-glibc-eac
 
 	echo '== install debloated llvm for space saving (optionally)'
-	LLVM="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/llvm-libs-mini-x86_64.pkg.tar.zst"
-	wget --retry-connrefused --tries=30 "$LLVM" -O ./llvm-libs.pkg.tar.zst
-	pac -U --noconfirm ./llvm-libs.pkg.tar.zst
-	rm -f ./llvm-libs.pkg.tar.zst
+	LLVM_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/llvm-libs-mini-x86_64.pkg.tar.zst"
+	LIBXML_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/libxml2-iculess-x86_64.pkg.tar.zst"
+	FFMPEG_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/ffmpeg-mini-x86_64.pkg.tar.zst"
+	wget --retry-connrefused --tries=30 "$LLVM_URL" -O ./llvm-libs-mini.pkg.tar.zst
+	wget --retry-connrefused --tries=30 "$LIBXML_URL" -O ./libxml2-icules.pkg.tar.zst
+	wget --retry-connrefused --tries=30 "$FFMPEG_URL" -O ./ffmpeg-mini.pkg.tar.zst
+	pac -U --noconfirm ./llvm-libs-mini.pkg.tar.zst ./libxml2-icules.pkg.tar.zst ./ffmpeg-mini.pkg.tar.zst
+	rm -f ./llvm-libs-mini.pkg.tar.zst ./libxml2-icules.pkg.tar.zst ./ffmpeg-mini.pkg.tar.zst
 
 	echo '== shrink (optionally)'
 	pac -Rsndd --noconfirm wget gocryptfs adobe-source-code-pro-fonts jq \
