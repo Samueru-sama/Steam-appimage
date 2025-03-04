@@ -100,7 +100,8 @@ rm -rfv ./AppDir/sharun/bin/chisel \
 	./AppDir/rootfs/etc/pacman* \
 	./AppDir/rootfs/usr/share/licenses \
 	./AppDir/rootfs/usr/share/terminfo \
-	./AppDir/rootfs/usr/share/icons/AdwaitaLegacy
+	./AppDir/rootfs/usr/share/icons/AdwaitaLegacy \
+	./AppDir/rootfs/usr/lib/udev/hwdb.bin
 
 VERSION="$(cat ~/version)"
 export ARCH="$(uname -m)"
