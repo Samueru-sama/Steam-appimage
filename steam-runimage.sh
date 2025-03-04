@@ -40,7 +40,7 @@ run_install() {
 	pac -Rsndd --noconfirm wget gocryptfs adobe-source-code-pro-fonts jq \
 		gnupg webkit2gtk-4.1 perl vulkan-tools
 	rim-shrink --all
-	pac -Rsndd --noconfirm binutils
+	pac -Rsndd --noconfirm binutils svt-av1
 
 
 	pac -Qi | awk -F': ' '/Name/ {name=$2}
