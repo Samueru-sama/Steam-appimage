@@ -11,21 +11,40 @@ fi
 
 run_install() {
 	set -e
-
-	INSTALL_PKGS=(
-		steam egl-wayland vulkan-radeon lib32-vulkan-radeon
-		vulkan-intel lib32-vulkan-intel vulkan-nouveau lib32-vulkan-nouveau
-		lib32-libpipewire libpipewire pipewire lib32-libpipewire 
-		libpulse lib32-libpulse vkd3d lib32-vkd3d wget
-		vulkan-mesa-layers lib32-vulkan-mesa-layers freetype2 lib32-freetype2 fuse2
-		yad mangohud lib32-mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
-	)
-
 	echo '== checking for updates'
 	rim-update
 
 	echo '== install packages'
-	pac --needed --noconfirm -S "${INSTALL_PKGS[@]}"
+	pac --needed --noconfirm -S \
+		egl-wayland \
+		freetype2 \
+		fuse2 \
+		gamemode \
+		gamescope \
+		lib32-freetype2 \
+		lib32-libpipewire \
+		lib32-libpipewire \
+		lib32-libpulse \
+		lib32-mangohud \
+		lib32-vkd3d \
+		lib32-vulkan-intel \
+		lib32-vulkan-mesa-layers \
+		lib32-vulkan-nouveau \
+		lib32-vulkan-radeon \
+		libpipewire \
+		libpulse \
+		mangohud \
+		pipewire \
+		steam \
+		steam-screensaver-fix \
+		vkd3d \
+		vulkan-intel \
+		vulkan-mesa-layers \
+		vulkan-nouveau \
+		vulkan-radeon \
+		wget \
+		yad \
+		zenity-gtk3
 
 	echo '== install glibc with patches for Easy Anti-Cheat (optionally)'
 	yes|pac -S glibc-eac lib32-glibc-eac
