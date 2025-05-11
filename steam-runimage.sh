@@ -15,7 +15,7 @@ run_install() {
 	INSTALL_PKGS=(
 		steam egl-wayland vulkan-radeon vulkan-intel vulkan-nouveau
 		lib32-libpipewire libpipewire pipewire libpulse lib32-libpulse 
-		vulkan-mesa-layersfreetype2 lib32-freetype2 fuse2 wget yad 
+		vulkan-mesa-layers freetype2 lib32-freetype2 fuse2 wget yad 
 		mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
 	)
 
