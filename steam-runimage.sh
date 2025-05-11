@@ -13,12 +13,10 @@ run_install() {
 	set -e
 
 	INSTALL_PKGS=(
-		steam egl-wayland vulkan-radeon vulkan-tools
-		vulkan-intel vulkan-nouveau
-		lib32-libpipewire libpipewire pipewire
-		lib32-libpipewire libpulse lib32-libpulse vkd3d lib32-vkd3d wget
-		vulkan-mesa-layers lib32-vulkan-mesa-layers freetype2 lib32-freetype2 fuse2
-		yad mangohud lib32-mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
+		steam egl-wayland vulkan-radeon vulkan-intel vulkan-nouveau
+		lib32-libpipewire libpipewire pipewire lib32-libpipewire libpulse lib32-libpulse 
+		vkd3d lib32-vkd3d vulkan-mesa-layers lib32-vulkan-mesa-layers freetype2 lib32-freetype2 
+		fuse2 wget yad mangohud lib32-mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
 	)
 
 	echo '== checking for updates'
@@ -39,8 +37,7 @@ run_install() {
 	rm -f ./*.pkg.tar.zst
 
 	echo '== shrink (optionally)'
-	pac -Rsndd --noconfirm wget gocryptfs jq \
-		gnupg webkit2gtk-4.1 perl vulkan-tools
+	pac -Rsndd --noconfirm wget gocryptfs jq gnupg webkit2gtk-4.1 perl
 	rim-shrink --all
 	pac -Rsndd --noconfirm binutils svt-av1
 
