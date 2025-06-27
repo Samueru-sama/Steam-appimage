@@ -13,12 +13,10 @@ run_install() {
 	set -e
 
 	INSTALL_PKGS=(
-		steam egl-wayland vulkan-radeon lib32-vulkan-radeon vulkan-tools
-		vulkan-intel lib32-vulkan-intel vulkan-nouveau lib32-vulkan-nouveau
-		lib32-libpipewire libpipewire pipewire
-		lib32-libpipewire libpulse lib32-libpulse vkd3d lib32-vkd3d wget
-		vulkan-mesa-layers lib32-vulkan-mesa-layers freetype2 lib32-freetype2 fuse2
-		yad mangohud lib32-mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
+		steam egl-wayland vulkan-radeon vulkan-tools vulkan-intel 
+		vulkan-nouveau libpipewire pipewire libpulse lib32-libpulse vkd3d wget
+		vulkan-mesa-layers freetype2 lib32-freetype2 fuse2 yad 
+		mangohud lib32-mangohud gamescope gamemode zenity-gtk3 steam-screensaver-fix
 	)
 
 	echo '== checking for updates'
@@ -39,8 +37,7 @@ run_install() {
 	rm -f ./*.pkg.tar.zst
 
 	echo '== shrink (optionally)'
-	pac -Rsndd --noconfirm wget gocryptfs jq \
-		gnupg webkit2gtk-4.1 perl vulkan-tools
+	pac -Rsndd --noconfirm wget gocryptfs jq gnupg webkit2gtk-4.1 perl
 	rim-shrink --all
 	pac -Rsndd --noconfirm binutils svt-av1
 
@@ -71,7 +68,6 @@ run_install() {
 	RIM_SHARE_ICONS="${RIM_SHARE_ICONS:=1}"
 	RIM_SHARE_FONTS="${RIM_SHARE_FONTS:=1}"
 	RIM_SHARE_THEMES="${RIM_SHARE_THEMES:=1}"
-	RIM_ALLOW_ROOT="${RIM_ALLOW_ROOT:=1}"
 	RIM_BIND="/usr/share/locale:/usr/share/locale,/usr/lib/locale:/usr/lib/locale"
 	RIM_AUTORUN=steam-screensaver-fix-runtime
 	EOF
