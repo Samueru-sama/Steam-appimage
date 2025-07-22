@@ -1,1 +1,1 @@
-https://github.com/Samueru-sama/Steam-appimage/releases/download/1.0.0.82-2%402025-07-14_1752474883/Steam-1.0.0.82-2-anylinux-x86_64.AppImage
+https://github.com/Samueru-sama/Steam-appimage/releases/download/1.0.0.82-2%402025-07-21_1753079654/Steam-1.0.0.82-2-anylinux-x86_64.AppImage
